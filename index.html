@@ -42,7 +42,7 @@
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-bold text-slate-900 leading-tight">Cotizador Rápido de Catálogo</h1>
-          <p class="text-xs text-slate-500">12 Categorías • Selección Dependiente Automática • Margen 85%</p>
+          <p id="headerSubtitle" class="text-xs text-slate-500">12 Categorías • Selección Dependiente Automática • Margen 85%</p>
         </div>
       </div>
 
@@ -86,7 +86,7 @@
       </div>
 
       <!-- Barra de Control de Porcentaje de Ganancia (Global y Rápido) -->
-      <div class="px-4 sm:px-6 py-4 bg-slate-50/90 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div id="marginControlsBar" class="px-4 sm:px-6 py-4 bg-slate-50/90 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4 admin-col">
         <div class="flex flex-wrap items-center gap-3">
           <div class="flex items-center gap-2">
             <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
@@ -133,7 +133,7 @@
             <button onclick="updateGlobalMargin(70)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 transition" data-margin="70">70%</button>
             <button onclick="updateGlobalMargin(75)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 transition" data-margin="75">75%</button>
             <button onclick="updateGlobalMargin(80)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 transition" data-margin="80">80%</button>
-            <button onclick="updateGlobalMargin(85)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-bold border border-indigo-600 bg-indigo-600 text-white shadow-sm transition" data-margin="85">85% (Catálogo)</button>
+            <button onclick="updateGlobalMargin(85)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-bold border border-indigo-600 bg-indigo-600 text-white shadow-sm transition" data-margin="85">85% (Estándar)</button>
             <button onclick="updateGlobalMargin(90)" class="margin-preset-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 transition" data-margin="90">90%</button>
           </div>
         </div>
@@ -162,7 +162,7 @@
               <th class="py-3.5 px-4 font-semibold min-w-[220px]">1. Producto (Categoría)</th>
               <th class="py-3.5 px-4 font-semibold min-w-[200px]">2. Tamaño / Variante</th>
               <th class="py-3.5 px-4 font-semibold min-w-[160px]">3. Cantidad (Pack)</th>
-              <th class="py-3.5 px-4 font-semibold text-center min-w-[145px]">4. % Ganancia</th>
+              <th class="py-3.5 px-4 font-semibold text-center min-w-[145px] admin-col">4. % Ganancia</th>
               <th class="py-3.5 px-4 font-semibold text-right min-w-[150px] bg-indigo-900/90">5. Precio Final</th>
               <th class="py-3.5 px-4 font-semibold text-right min-w-[120px]">Precio Unit.</th>
               <th class="py-3.5 px-4 font-semibold text-right min-w-[120px] admin-col">Costo Prod.</th>
@@ -186,11 +186,11 @@
             </button>
             <button onclick="copyWhatsAppSummary()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-200 transition">
               <i class="fa-brands fa-whatsapp text-base"></i>
-              <span>Copiar Cotización con Datos de Pago</span>
+              <span>Copiar Cotización para Cliente</span>
             </button>
             <button onclick="toggleBankConfigPanel()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 transition">
-              <i class="fa-solid fa-building-columns text-indigo-600"></i>
-              <span>Editar Mis Datos Bancarios</span>
+              <i class="fa-solid fa-percent text-indigo-600"></i>
+              <span>Editar % de Anticipo</span>
             </button>
           </div>
 
@@ -201,7 +201,7 @@
               <span id="grandTotalCost" class="text-base font-bold text-slate-700">$0.00 MXN</span>
             </div>
             <div id="totalProfitCard" class="admin-col bg-emerald-50/70 px-4 py-2.5 rounded-xl border border-emerald-200 flex flex-col justify-center">
-              <span id="grandTotalProfitLabel" class="text-[11px] font-medium text-emerald-700 uppercase">Tu Ganancia Neta (85%)</span>
+              <span id="grandTotalProfitLabel" class="text-[11px] font-medium text-emerald-700 uppercase">Tu Ganancia Neta</span>
               <span id="grandTotalProfit" class="text-base font-bold text-emerald-700">$0.00 MXN</span>
             </div>
             <div class="bg-amber-50 px-4 py-2.5 rounded-xl border border-amber-200 flex flex-col justify-center">
@@ -216,51 +216,20 @@
         </div>
 
         <!-- Panel Editable de Datos de Transferencia y Anticipo -->
-        <div id="bankConfigPanel" class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm space-y-3">
+        <div id="bankConfigPanel" class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm space-y-3 hidden">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
             <div class="flex items-center gap-2">
               <i class="fa-solid fa-money-check-dollar text-indigo-600"></i>
-              <h3 class="text-xs sm:text-sm font-bold text-slate-800">Mis Datos para Transferencia y Anticipo (WhatsApp / Instagram)</h3>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-800">Configuración de Anticipo (WhatsApp / Instagram)</h3>
             </div>
             <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
               <input id="includeBankDetailsCheckbox" type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer" />
-              <span>Incluir datos de pago y anticipo en el mensaje copiado</span>
+              <span>Incluir anticipo en el mensaje copiado</span>
             </label>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Banco / App</label>
-              <input
-                id="bankNameInput"
-                type="text"
-                value="BBVA / Nu / Transferencia"
-                placeholder="Ej. BBVA, Nu, Spin..."
-                class="w-full px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">CLABE o Número de Tarjeta</label>
-              <input
-                id="bankAccountInput"
-                type="text"
-                value="0123 4567 8901 2345 67"
-                placeholder="18 dígitos CLABE o 16 tarjeta"
-                class="w-full px-3 py-2 text-xs sm:text-sm font-mono font-semibold rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nombre del Beneficiario</label>
-              <input
-                id="bankHolderInput"
-                type="text"
-                value="Tu Nombre / Negocio"
-                placeholder="Nombre de quien recibe"
-                class="w-full px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">% de Anticipo Solicitado</label>
+          <div class="flex items-center gap-3">
+              <label class="block text-[11px] font-bold text-slate-500 uppercase">Solicitar Anticipo del:</label>
               <div class="flex items-center gap-2">
                 <input
                   id="depositPercentInput"
@@ -274,7 +243,6 @@
                 />
                 <span class="text-xs font-bold text-slate-600">% para iniciar producción</span>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -323,7 +291,7 @@
             <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               <th class="py-3 px-4">Tamaño / Variante</th>
               <th class="py-3 px-4 text-center">Cantidad (Pack)</th>
-              <th class="py-3 px-4 text-center">Insumo / Rendimiento</th>
+              <th class="py-3 px-4 text-center admin-col">Insumo / Rendimiento</th>
               <th class="py-3 px-4 text-right text-indigo-700">Precio Sugerido</th>
               <th class="py-3 px-4 text-right">Precio Unitario</th>
               <th class="py-3 px-4 text-right admin-col">Costo Prod. Pack</th>
@@ -1075,8 +1043,8 @@
           </td>
 
           <!-- COLUMNA 4: PORCENTAJE DE GANANCIA PERSONALIZABLE -->
-          <td class="py-3.5 px-4 text-center">
-            <div class="inline-flex items-center bg-white border ${rowMargin === 85 ? 'border-slate-300' : 'border-amber-400 ring-2 ring-amber-100'} rounded-xl p-1 shadow-sm">
+          <td class="py-3.5 px-4 text-center admin-col ${isAdminMode ? '' : 'hidden'}">
+            <div class="inline-flex items-center bg-white border border-slate-300 rounded-xl p-1 shadow-sm">
               <button
                 type="button"
                 onclick="adjustRowMarginStep(${row.rowId}, -5)"
@@ -1099,18 +1067,12 @@
                 class="w-6 h-7 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800 text-xs font-bold transition"
               >+</button>
             </div>
-            <span class="block text-[10px] mt-0.5 font-semibold ${rowMargin === 85 ? 'text-slate-400' : 'text-amber-600'}">
-              ${rowMargin === 85 ? 'Catálogo (85%)' : 'Margen ajustado'}
-            </span>
           </td>
 
           <!-- COLUMNA 5: PRECIO AUTOMÁTICO -->
           <td class="py-3.5 px-4 text-right bg-indigo-50/40">
             <span class="inline-block text-base sm:text-lg font-extrabold text-indigo-700">
               ${formatMXN(calc.price)}
-            </span>
-            <span class="block text-[10px] font-medium text-slate-400">
-              ${rowMargin === 85 ? 'MXN' : `Catálogo: ${formatMXN(pack.price)}`}
             </span>
           </td>
 
@@ -1127,7 +1089,6 @@
           <!-- GANANCIA NETA (MODO INTERNO) -->
           <td class="py-3.5 px-4 text-right font-bold text-emerald-600 text-xs sm:text-sm admin-col ${isAdminMode ? '' : 'hidden'}">
             ${formatMXN(calc.profit)}
-            <span class="block text-[10px] font-semibold text-emerald-500">Margen ${calc.effectiveMargin}%</span>
           </td>
 
           <!-- ELIMINAR FILA -->
@@ -1146,12 +1107,11 @@
       });
 
       // Actualizar tarjetas de totales
-      const avgMargin = totalPrice > 0 ? Math.round((totalProfit / totalPrice) * 100) : globalMargin;
       const depositPercent = Math.min(Math.max(parseInt(document.getElementById("depositPercentInput")?.value || 50, 10), 10), 100);
       const depositAmount = totalPrice * (depositPercent / 100);
 
       document.getElementById("grandTotalCost").textContent = formatMXN(totalCost) + " MXN";
-      document.getElementById("grandTotalProfitLabel").textContent = `Tu Ganancia Neta (~${avgMargin}%)`;
+      document.getElementById("grandTotalProfitLabel").textContent = "Tu Ganancia Neta";
       document.getElementById("grandTotalProfit").textContent = formatMXN(totalProfit) + " MXN";
       document.getElementById("depositCardLabel").textContent = `Anticipo Requerido (${depositPercent}%)`;
       document.getElementById("grandTotalDeposit").textContent = formatMXN(depositAmount) + " MXN";
@@ -1178,6 +1138,15 @@
         }
       });
 
+      const headerSub = document.getElementById("headerSubtitle");
+      if (headerSub) {
+        if (isAdminMode) {
+          headerSub.textContent = "12 Categorías • Selección Dependiente Automática • Margen 85%";
+        } else {
+          headerSub.textContent = "12 Categorías • Selección Dependiente Automática";
+        }
+      }
+
       const btn = document.getElementById("toggleAdminBtn");
       const icon = document.getElementById("adminIcon");
       const text = document.getElementById("adminText");
@@ -1193,6 +1162,9 @@
         text.textContent = "Modo Cliente (Costos Ocultos)";
         showToast("Modo Cliente activado: Costos y márgenes ocultos");
       }
+
+      // Re-renderizar pestañas inferiores para respetar la visibilidad de especificaciones e insumos
+      renderActiveTabTable(document.getElementById("catalogSearchInput")?.value || "");
     }
 
     // =========================================================================
@@ -1232,24 +1204,16 @@
       lines.push(`==============================`);
 
       if (includeBank) {
-        const bankName = (document.getElementById("bankNameInput")?.value || "").trim();
-        const bankAccount = (document.getElementById("bankAccountInput")?.value || "").trim();
-        const bankHolder = (document.getElementById("bankHolderInput")?.value || "").trim();
-
         lines.push("");
-        lines.push(`🛠️ *Para empezar la producción requerimos del ${depositPercent}% (${formatMXN(depositAmount)} MXN), estos son mis datos:*`);
-        if (bankName) lines.push(`🏦 *Banco:* ${bankName}`);
-        if (bankAccount) lines.push(`💳 *CLABE / Tarjeta:* ${bankAccount}`);
-        if (bankHolder) lines.push(`👤 *Beneficiario:* ${bankHolder}`);
-        lines.push("");
-        lines.push(`📸 *Favor de enviar comprobante por este medio.* ¡Muchas gracias!`);
+        lines.push(`🛠️ *Para empezar la producción requerimos de un anticipo del ${depositPercent}% (${formatMXN(depositAmount)} MXN).*`);
+        lines.push(`📸 *Favor de enviar su comprobante de pago por este medio para agendar el pedido.* ¡Muchas gracias!`);
       }
 
       const helper = document.getElementById("clipboardHelper");
       helper.value = lines.join("\n");
       helper.select();
       document.execCommand("copy");
-      showToast("¡Cotización con anticipo y datos bancarios copiada!");
+      showToast("¡Cotización copiada al portapapeles!");
     }
 
     // =========================================================================
@@ -1305,11 +1269,8 @@
         headerBox.innerHTML = `
           <div>
             <h3 class="text-sm sm:text-base font-bold text-slate-900">${activeCat.name}</h3>
-            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-circle-info text-indigo-500 mr-1"></i> ${activeCat.specs}</p>
+            ${isAdminMode ? `<p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-circle-info text-indigo-500 mr-1"></i> ${activeCat.specs}</p>` : `<p class="text-xs text-slate-500 mt-0.5">Catálogo oficial de productos personalizados</p>`}
           </div>
-          <span class="admin-col inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${globalMargin === 85 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'} ${isAdminMode ? '' : 'hidden'}">
-            Margen Activo: ${globalMargin}% ${globalMargin === 85 ? '(Catálogo)' : '(Personalizado)'}
-          </span>
         `;
       }
 
@@ -1337,7 +1298,7 @@
                   ${pack.qtyLabel}
                 </span>
               </td>
-              <td class="py-3 px-4 text-center text-xs text-slate-500">
+              <td class="py-3 px-4 text-center text-xs text-slate-500 admin-col ${isAdminMode ? '' : 'hidden'}">
                 ${pack.yieldInfo}
               </td>
               <td class="py-3 px-4 text-right font-extrabold text-indigo-700 text-sm sm:text-base">
@@ -1396,6 +1357,11 @@
       initQuoteTable();
       renderCategoryTabs();
       renderActiveTabTable();
+      // Aplicar estado inicial de visibilidad si inicia en modo admin o cliente
+      const adminCols = document.querySelectorAll(".admin-col");
+      adminCols.forEach(el => {
+        if (!isAdminMode) el.classList.add("hidden");
+      });
     };
   </script>
 </body>
