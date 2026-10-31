@@ -66,7 +66,7 @@
           <i class="fa-solid fa-wand-magic-sparkles"></i> Nuevo Producto
         </button>
         <button onclick="openInsumosModal()" class="hide-in-client-mode flex-1 sm:flex-none flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition border border-indigo-200">
-          <i class="fa-solid fa-boxes-stacked"></i> Editar Costos Insumos
+          <i class="fa-solid fa-boxes-stacked"></i> Insumos y Máquinas
         </button>
       </div>
     </div>
@@ -180,7 +180,7 @@
       <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <h2 class="text-base sm:text-lg font-extrabold text-slate-900">Catálogo Completo por Pestañas</h2>
-          <p class="text-xs text-slate-500">Haz clic en cualquier pestaña para ver su tabla completa o presiona "+ Cotizar" en cualquier fila.</p>
+          <p class="text-xs text-slate-500">Haz clic en cualquier pestaña para ver, cotizar o editar sus productos, variantes y paquetes.</p>
         </div>
         <div class="relative w-full md:w-72">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -206,7 +206,7 @@
               <th class="p-3 sm:p-4 text-center hide-in-client-mode">Costo Prod.</th>
               <th class="p-3 sm:p-4 text-center hide-in-client-mode">Ganancia Neta</th>
               <th class="p-3 sm:p-4 text-center hide-in-client-mode">Margen</th>
-              <th class="p-3 sm:p-4 text-center">Acción Rápida</th>
+              <th class="p-3 sm:p-4 text-center">Acciones</th>
             </tr>
           </thead>
           <tbody id="catalogTableBody" class="divide-y divide-slate-100"></tbody>
@@ -253,29 +253,29 @@
           <div id="insumosInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
         </div>
 
-        <!-- SECCIÓN DE MÁQUINAS -->
+        <!-- SECCIÓN DE MÁQUINAS (INCLUYE IMPRESORAS, CRICUT, LAMINADORA, BOTONES) -->
         <div class="border-t border-slate-200 pt-5">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
             <div>
               <h4 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
-                <i class="fa-solid fa-gears text-indigo-600"></i>
-                Amortización y Desgaste de Máquinas
+                <i class="fa-solid fa-print text-indigo-600"></i>
+                Amortización y Desgaste de Máquinas e Impresoras
               </h4>
-              <p class="text-xs text-slate-500">Define el precio de cada máquina y el % extra que suma al costo de producción de los productos que la usan.</p>
+              <p class="text-xs text-slate-500">Define el precio de cada equipo (Impresoras, Cricut, Laminadora, Máquina de botones) y el % extra que suma al costo del producto.</p>
             </div>
           </div>
 
           <!-- Agregar máquina nueva -->
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <input id="newMachineName" type="text" placeholder="Nombre (ej. Impresora Epson)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+            <input id="newMachineName" type="text" placeholder="Nombre (ej. Prensa de Tazas)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
             <input id="newMachinePrice" type="number" step="1" placeholder="Precio Máquina ($)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
-            <input id="newMachinePercent" type="number" step="0.1" placeholder="% Extra al costo (ej. 3)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+            <input id="newMachinePercent" type="number" step="0.1" placeholder="% Extra al costo (ej. 2)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
             <button onclick="addNewMachine()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs py-1.5 px-3 rounded-lg transition">
               + Agregar Máquina
             </button>
           </div>
 
-          <div id="machinesInputsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+          <div id="machinesInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
         </div>
       </div>
 
@@ -308,7 +308,6 @@
       </div>
 
       <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar">
-        <!-- 1. Categoría y nombre -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">1. Categoría del Producto</label>
@@ -324,7 +323,6 @@
           </div>
         </div>
 
-        <!-- 2. Receta de Insumos por unidad o por hoja -->
         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
           <div class="flex items-center justify-between">
             <div>
@@ -338,13 +336,11 @@
           <div id="npRecipeContainer" class="space-y-2"></div>
         </div>
 
-        <!-- 3. Máquinas utilizadas -->
         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-          <h4 class="text-xs font-extrabold uppercase text-slate-700 mb-2">4. Máquinas utilizadas en este producto</h4>
-          <div id="npMachinesCheckboxes" class="flex flex-wrap gap-3"></div>
+          <h4 class="text-xs font-extrabold uppercase text-slate-700 mb-2">4. Máquinas e Impresoras utilizadas</h4>
+          <div id="npMachinesCheckboxes" class="flex flex-wrap gap-2.5"></div>
         </div>
 
-        <!-- 4. Paquetes / Cantidades -->
         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
           <div class="flex items-center justify-between">
             <div>
@@ -362,6 +358,101 @@
       <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
         <button onclick="closeNewProductModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs sm:text-sm">Cancelar</button>
         <button onclick="saveNewProduct()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md">Guardar Producto en Catálogo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: EDITAR TODO ASPECTO DE UN PRODUCTO / VARIANTE EXISTENTE -->
+  <div id="editVariantModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-amber-50/70">
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-pen-to-square text-amber-600"></i>
+            Editar Producto / Variante Existente
+          </h3>
+          <p class="text-xs text-slate-500">Modifica nombre de categoría, variante, máquinas, fórmula de insumos o costos y paquetes directamente.</p>
+        </div>
+        <button onclick="closeEditVariantModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar">
+        <input type="hidden" id="evCatId" />
+        <input type="hidden" id="evVarIdx" />
+
+        <!-- Datos de la categoría y variante -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nombre de la Pestaña / Categoría</label>
+            <input id="evCatName" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm font-bold text-slate-800" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nombre Corto en Pestaña</label>
+            <input id="evCatShortName" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-700" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Especificaciones / Descripción de Materiales de la Categoría</label>
+            <input id="evCatSpecs" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-700" />
+          </div>
+          <div class="sm:col-span-2 border-t border-slate-200 pt-3">
+            <label class="block text-xs font-extrabold text-amber-800 mb-1">Nombre de este Tamaño / Variante</label>
+            <input id="evVariantName" type="text" class="w-full px-3 py-2 bg-amber-50/40 border border-amber-300 rounded-xl text-xs sm:text-sm font-bold text-slate-900" />
+          </div>
+        </div>
+
+        <!-- Máquinas utilizadas en esta categoría -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 class="text-xs font-extrabold uppercase text-slate-700 mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-print text-indigo-600"></i> Máquinas e Impresoras que utiliza esta categoría
+          </h4>
+          <div id="evMachinesCheckboxes" class="flex flex-wrap gap-2.5"></div>
+        </div>
+
+        <!-- Fórmula de Insumos Opcional para esta variante -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h4 class="text-xs font-extrabold uppercase text-slate-700">Fórmula de Insumos por Pieza (Opcional)</h4>
+              <p class="text-[11px] text-slate-500">Si agregas insumos aquí, el costo base de los paquetes se calculará con esta receta. Si lo dejas vacío, puedes editar el costo base de cada paquete manualmente abajo.</p>
+            </div>
+            <button onclick="addEvRecipeRow()" class="text-xs font-bold bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1.5 rounded-lg transition self-start">
+              + Añadir Insumo a Receta
+            </button>
+          </div>
+          <div id="evRecipeContainer" class="space-y-2"></div>
+        </div>
+
+        <!-- Paquetes / Cantidades de esta variante -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-xs font-extrabold uppercase text-slate-700">Paquetes (Cantidades) y Costos de Producción</h4>
+              <p class="text-[11px] text-slate-500">Puedes editar la etiqueta (ej. "10 pzs"), la cantidad numérica y el costo base de producción del paquete.</p>
+            </div>
+            <button onclick="addEvPackRow()" class="text-xs font-bold bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg transition">
+              + Añadir Nuevo Paquete
+            </button>
+          </div>
+          <div class="grid grid-cols-12 gap-2 text-[10px] font-extrabold uppercase text-slate-400 px-1">
+            <div class="col-span-4">Etiqueta (ej. 10 pzs)</div>
+            <div class="col-span-3">Piezas Numéricas</div>
+            <div class="col-span-3">Costo Base Prod. ($)</div>
+            <div class="col-span-2 text-center">Acción</div>
+          </div>
+          <div id="evPacksContainer" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-between items-center gap-3">
+        <button onclick="deleteEntireVariantFromModal()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-xl text-xs border border-rose-200 transition">
+          <i class="fa-solid fa-trash-can mr-1"></i> Eliminar Toda esta Variante
+        </button>
+        <div class="flex gap-2">
+          <button onclick="closeEditVariantModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs sm:text-sm">Cancelar</button>
+          <button onclick="saveEditedVariant()" class="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md">Guardar Cambios del Producto</button>
+        </div>
       </div>
     </div>
   </div>
@@ -413,7 +504,7 @@
     }
 
     // =========================================================================
-    // INSUMOS Y MÁQUINAS BASE
+    // INSUMOS Y MÁQUINAS BASE (CON IMPRESORAS INTEGRADAS)
     // =========================================================================
     const BASE_INSUMOS = {
       papelBrillante: 1.43,
@@ -454,6 +545,8 @@
     };
 
     const BASE_MACHINES = {
+      impresoraTinta: { name: "Impresora Inyección de Tinta", price: 4500, extraPercent: 1.5 },
+      impresoraLaser: { name: "Impresora Láser (Tóner)", price: 3800, extraPercent: 1.5 },
       cricut: { name: "Plotter Cricut", price: 6500, extraPercent: 2.0 },
       laminadora: { name: "Laminadora Térmica", price: 1200, extraPercent: 1.0 },
       maquinaBotones: { name: "Máquina para Botones", price: 2800, extraPercent: 1.5 }
@@ -465,7 +558,7 @@
     let globalMarginPercentage = 85;
 
     // =========================================================================
-    // DATOS MAESTROS DEL CATÁLOGO (12 CATEGORÍAS)
+    // DATOS MAESTROS DEL CATÁLOGO (12 CATEGORÍAS CON IMPRESORAS ASIGNADAS)
     // =========================================================================
     let CATALOG_DATA = [
       {
@@ -474,7 +567,7 @@
         name: "1. Planillas Stickers (Brillante + Laminado)",
         icon: "fa-sheet-plastic",
         specs: "Hoja sticker brillante + laminado térmico + tinta. 2 planillas por hoja A4.",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraTinta", "cricut", "laminadora"],
         variants: [
           {
             name: "Planilla 2 por hoja A4 (~14×20 cm)",
@@ -495,7 +588,7 @@
         name: "2. Stickers Individuales Die-Cut (Papel Brillante)",
         icon: "fa-note-sticky",
         specs: "Papel sticker brillante + laminado térmico + corte die-cut.",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraTinta", "cricut", "laminadora"],
         variants: [
           {
             name: "Chico (5 × 5 cm)",
@@ -535,7 +628,7 @@
         name: "3. Stickers en Vinil Imprimible (Waterproof)",
         icon: "fa-droplet",
         specs: "Vinil adhesivo imprimible ($5.30) + tinta ($0.20) + laminado térmico ($0.89).",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraTinta", "cricut", "laminadora"],
         variants: [
           {
             name: "Planilla (2 por hoja A4)",
@@ -584,9 +677,9 @@
         id: "stickers-foil",
         shortName: "4. Stickers Foil",
         name: "4. Stickers que Brillan con Foil (Papel Mate)",
-        icon: "fa-sparkles",
+        icon: "fa-wand-magic-sparkles",
         specs: "Papel adhesivo mate + tóner láser + foil reactivo.",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraLaser", "cricut", "laminadora"],
         variants: [
           {
             name: "Plantilla con Foil (2 por hoja)",
@@ -658,7 +751,7 @@
         name: "6. Botones Publicitarios / Pines Metálicos",
         icon: "fa-circle-dot",
         specs: "Herraje metálico completo + impresión en papel fotográfico.",
-        machines: ["maquinaBotones"],
+        machines: ["impresoraTinta", "maquinaBotones"],
         variants: [
           {
             name: "Botón 32 mm",
@@ -820,7 +913,7 @@
         name: "10. Fotos y Toppers para Pastel / Cupcakes",
         icon: "fa-cake-candles",
         specs: "Papel fotográfico 200g + tinta + laminado térmico + palillos.",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraTinta", "cricut", "laminadora"],
         variants: [
           {
             name: "Grande (12 a 18 cm)",
@@ -854,7 +947,7 @@
         name: "11. Tarjetas de Presentación (9 × 5 cm)",
         icon: "fa-id-card",
         specs: "Papel fotográfico + tinta + laminado térmico protector.",
-        machines: ["laminadora"],
+        machines: ["impresoraTinta", "laminadora"],
         variants: [
           {
             name: "1 Cara + Laminado 1 Cara",
@@ -882,7 +975,7 @@
         name: "12. Separadores de Libros con Foil (5 × 15 cm)",
         icon: "fa-bookmark",
         specs: "Papel fotográfico 200g + tinta + tóner + foil + laminado.",
-        machines: ["cricut", "laminadora"],
+        machines: ["impresoraTinta", "impresoraLaser", "cricut", "laminadora"],
         variants: [
           {
             name: "Estándar 5 × 15 cm con Foil",
@@ -918,13 +1011,28 @@
         if (savedInsumos) CURRENT_INSUMOS = { ...BASE_INSUMOS, ...JSON.parse(savedInsumos) };
 
         const savedMachines = localStorage.getItem('cotizador_machines');
-        if (savedMachines) CURRENT_MACHINES = { ...BASE_MACHINES, ...JSON.parse(savedMachines) };
+        if (savedMachines) {
+          // Aseguramos que las impresoras de BASE_MACHINES siempre existan aunque hubiera un guardado anterior
+          CURRENT_MACHINES = { ... JSON.parse(JSON.stringify(BASE_MACHINES)), ...JSON.parse(savedMachines) };
+        }
 
         const savedCatalog = localStorage.getItem('cotizador_catalog_data_v1');
         if (savedCatalog) {
           const parsedCat = JSON.parse(savedCatalog);
           if (Array.isArray(parsedCat) && parsedCat.length > 0) {
             CATALOG_DATA = parsedCat;
+            // Inyectar impresoras en categorías por defecto si venían de versión previa sin impresoras
+            CATALOG_DATA.forEach(cat => {
+              const defCat = DEFAULT_CATALOG_BACKUP.find(d => d.id === cat.id);
+              if (defCat && Array.isArray(defCat.machines)) {
+                if (!cat.machines) cat.machines = [];
+                defCat.machines.forEach(m => {
+                  if ((m === "impresoraTinta" || m === "impresoraLaser") && !cat.machines.includes(m)) {
+                    cat.machines.unshift(m);
+                  }
+                });
+              }
+            });
             if (!CATALOG_DATA.some(c => c.id === activeTabId)) {
               activeTabId = CATALOG_DATA[0].id;
             }
@@ -1004,7 +1112,6 @@
     }
 
     function applyInsumosCosts() {
-      // Factor proporcional de cambio en insumos principales para categorías base
       const hojaBrillanteBase = BASE_INSUMOS.papelBrillante + BASE_INSUMOS.laminadoTermico + BASE_INSUMOS.tinta;
       const hojaBrillanteActual = CURRENT_INSUMOS.papelBrillante + CURRENT_INSUMOS.laminadoTermico + CURRENT_INSUMOS.tinta;
       const ratioBrillante = hojaBrillanteActual / hojaBrillanteBase;
@@ -1026,16 +1133,15 @@
 
             let rawCost = pack.baseCost;
 
-            // Si el producto fue creado con receta personalizada de insumos
-            if (vari.customRecipe && Array.isArray(vari.customRecipe)) {
+            if (vari.customRecipe && Array.isArray(vari.customRecipe) && vari.customRecipe.length > 0) {
               let unitMatCost = 0;
               vari.customRecipe.forEach(r => {
                 const insumoPrice = CURRENT_INSUMOS[r.insumoKey] || 0;
                 unitMatCost += insumoPrice * r.qtyPerUnit;
               });
               rawCost = (unitMatCost * pack.qtyNum) + (pack.packCost || 0);
-            } else {
-              // Escalamiento proporcional según familia
+              pack.baseCost = +rawCost.toFixed(2);
+            } else if (!vari.manualOverrideCost) {
               if (cat.id === "planillas-brillante" || cat.id === "stickers-individuales") {
                 rawCost = pack.baseCost * ratioBrillante;
               } else if (cat.id === "vinil-imprimible") {
@@ -1204,7 +1310,9 @@
 
       quoterRows.forEach(row => {
         const cat = CATALOG_DATA.find(c => c.id === row.categoryId) || CATALOG_DATA[0];
+        if (!cat || !cat.variants.length) return;
         const vari = cat.variants.find(v => v.name === row.variantName) || cat.variants[0];
+        if (!vari || !vari.packs.length) return;
         const pack = vari.packs.find(p => p.qtyLabel === row.qtyLabel) || vari.packs[0];
 
         const activeMargin = row.marginOverride !== null ? row.marginOverride : globalMarginPercentage;
@@ -1402,9 +1510,14 @@
               ${machinesHtml}
             </div>
             ${isAdminMode ? `
-              <button onclick="deleteCategory('${activeCat.id}')" class="text-xs text-rose-600 hover:text-white hover:bg-rose-600 border border-rose-200 bg-rose-50 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5">
-                <i class="fa-solid fa-trash-can"></i> Eliminar Categoría
-              </button>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openEditVariantModal('${activeCat.id}', 0)" class="text-xs text-amber-700 hover:text-white hover:bg-amber-600 border border-amber-200 bg-amber-50 px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-pen-to-square"></i> Editar Categoría / Producto
+                </button>
+                <button onclick="deleteCategory('${activeCat.id}')" class="text-xs text-rose-600 hover:text-white hover:bg-rose-600 border border-rose-200 bg-rose-50 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-trash-can"></i> Eliminar Categoría
+                </button>
+              </div>
             ` : ''}
           </div>
         `;
@@ -1429,7 +1542,14 @@
             tr.innerHTML = `
               <td class="p-3 sm:p-4 text-xs sm:text-sm font-semibold text-slate-700">
                 ${query ? `<span class="text-[10px] font-bold text-indigo-600 block">${cat.shortName}</span>` : ''}
-                ${vari.name}
+                <div class="flex items-center gap-2">
+                  <span>${vari.name}</span>
+                  ${isAdminMode ? `
+                    <button onclick="openEditVariantModal('${cat.id}', ${varIdx})" class="text-[11px] text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 px-2 py-0.5 rounded border border-amber-200 font-bold transition" title="Editar esta variante y sus paquetes">
+                      <i class="fa-solid fa-pen"></i> Editar
+                    </button>
+                  ` : ''}
+                </div>
               </td>
               <td class="p-3 sm:p-4 text-xs sm:text-sm font-bold text-slate-800 text-center">${pack.qtyLabel}</td>
               <td class="p-3 sm:p-4 text-sm sm:text-base font-black text-indigo-700 bg-indigo-50/30 text-center">$${pack.price.toFixed(2)}</td>
@@ -1443,6 +1563,9 @@
                     + Cotizar
                   </button>
                   ${isAdminMode ? `
+                    <button onclick="openEditVariantModal('${cat.id}', ${varIdx})" class="text-amber-500 hover:text-amber-700 p-1.5 rounded-lg transition" title="Editar variante / costos / paquetes">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
                     <button onclick="deleteProductPack('${cat.id}', ${varIdx}, ${packIdx})" class="text-rose-400 hover:text-rose-600 p-1.5 rounded-lg transition" title="Eliminar este paquete">
                       <i class="fa-solid fa-trash-can"></i>
                     </button>
@@ -1458,6 +1581,205 @@
       if (rowsRendered === 0) {
         tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400 text-sm">No se encontraron productos coincidentes.</td></tr>`;
       }
+    }
+
+    // =========================================================================
+    // MODAL DE EDICIÓN COMPLETA DE CATEGORÍAS Y PRODUCTOS EXISTENTES
+    // =========================================================================
+    function openEditVariantModal(catId, varIdx = 0) {
+      const cat = CATALOG_DATA.find(c => c.id === catId);
+      if (!cat) return;
+      const vari = cat.variants[varIdx] || cat.variants[0];
+      if (!vari) return;
+
+      document.getElementById("evCatId").value = cat.id;
+      document.getElementById("evVarIdx").value = varIdx;
+
+      document.getElementById("evCatName").value = cat.name;
+      document.getElementById("evCatShortName").value = cat.shortName;
+      document.getElementById("evCatSpecs").value = cat.specs || "";
+      document.getElementById("evVariantName").value = vari.name;
+
+      // Checkboxes de máquinas
+      const machBox = document.getElementById("evMachinesCheckboxes");
+      const currentMachines = cat.machines || [];
+      machBox.innerHTML = Object.keys(CURRENT_MACHINES).map(mKey => {
+        const checked = currentMachines.includes(mKey) ? "checked" : "";
+        return `
+          <label class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-slate-200 cursor-pointer">
+            <input type="checkbox" value="${mKey}" ${checked} class="ev-machine-cb rounded text-indigo-600" />
+            ${CURRENT_MACHINES[mKey].name} (+${CURRENT_MACHINES[mKey].extraPercent}%)
+          </label>
+        `;
+      }).join("");
+
+      // Receta de insumos si existe
+      const recCont = document.getElementById("evRecipeContainer");
+      recCont.innerHTML = "";
+      if (vari.customRecipe && Array.isArray(vari.customRecipe)) {
+        vari.customRecipe.forEach(r => addEvRecipeRow(r.insumoKey, r.qtyPerUnit));
+      }
+
+      // Paquetes actuales
+      const packsCont = document.getElementById("evPacksContainer");
+      packsCont.innerHTML = "";
+      vari.packs.forEach(p => {
+        const baseC = p.baseCost !== undefined ? p.baseCost : p.cost;
+        addEvPackRow(p.qtyLabel, p.qtyNum, baseC);
+      });
+
+      const modal = document.getElementById("editVariantModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeEditVariantModal() {
+      const modal = document.getElementById("editVariantModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function addEvRecipeRow(selectedKey = null, defaultQty = 1) {
+      const cont = document.getElementById("evRecipeContainer");
+      const div = document.createElement("div");
+      div.className = "grid grid-cols-1 sm:grid-cols-3 gap-2 items-center ev-recipe-row";
+      const options = Object.keys(CURRENT_INSUMOS).map(k => {
+        const sel = k === selectedKey ? "selected" : "";
+        return `<option value="${k}" ${sel}>${INSUMOS_NAMES[k] || k} ($${CURRENT_INSUMOS[k]})</option>`;
+      }).join("");
+
+      div.innerHTML = `
+        <select class="ev-recipe-insumo sm:col-span-2 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">${options}</select>
+        <div class="flex items-center gap-1.5">
+          <input type="number" step="0.01" value="${defaultQty}" placeholder="Cant. por 1 pz" class="ev-recipe-qty w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
+          <button onclick="this.closest('.ev-recipe-row').remove()" class="text-rose-500 hover:bg-rose-50 p-1.5 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `;
+      cont.appendChild(div);
+    }
+
+    function addEvPackRow(qtyLabel = "10 pzs", qtyNum = 10, baseCost = 5.00) {
+      const cont = document.getElementById("evPacksContainer");
+      const div = document.createElement("div");
+      div.className = "grid grid-cols-12 gap-2 items-center ev-pack-row";
+      div.innerHTML = `
+        <div class="col-span-4">
+          <input type="text" value="${qtyLabel}" placeholder="Ej. 10 pzs" class="ev-pack-label w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
+        </div>
+        <div class="col-span-3">
+          <input type="number" min="1" value="${qtyNum}" class="ev-pack-num w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
+        </div>
+        <div class="col-span-3">
+          <input type="number" step="0.01" value="${(+baseCost).toFixed(2)}" class="ev-pack-cost w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-indigo-700" />
+        </div>
+        <div class="col-span-2 text-center">
+          <button onclick="this.closest('.ev-pack-row').remove()" class="text-xs text-rose-600 hover:bg-rose-50 px-2 py-1 rounded font-bold"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      `;
+      cont.appendChild(div);
+    }
+
+    function saveEditedVariant() {
+      const catId = document.getElementById("evCatId").value;
+      const varIdx = parseInt(document.getElementById("evVarIdx").value);
+      const cat = CATALOG_DATA.find(c => c.id === catId);
+      if (!cat || !cat.variants[varIdx]) return;
+
+      const vari = cat.variants[varIdx];
+      const oldVarName = vari.name;
+
+      const newCatName = document.getElementById("evCatName").value.trim();
+      const newShortName = document.getElementById("evCatShortName").value.trim();
+      const newSpecs = document.getElementById("evCatSpecs").value.trim();
+      const newVarName = document.getElementById("evVariantName").value.trim();
+
+      if (!newCatName || !newVarName) {
+        return uiAlert("El nombre de la categoría y el de la variante no pueden quedar vacíos.");
+      }
+
+      cat.name = newCatName;
+      cat.shortName = newShortName || newCatName;
+      cat.specs = newSpecs;
+      vari.name = newVarName;
+
+      // Actualizar máquinas
+      const selectedMachines = [];
+      document.querySelectorAll(".ev-machine-cb:checked").forEach(cb => selectedMachines.push(cb.value));
+      cat.machines = selectedMachines;
+
+      // Actualizar receta si tiene filas
+      const recipe = [];
+      document.querySelectorAll(".ev-recipe-row").forEach(r => {
+        const insumoKey = r.querySelector(".ev-recipe-insumo").value;
+        const qtyPerUnit = parseFloat(r.querySelector(".ev-recipe-qty").value) || 0;
+        if (qtyPerUnit > 0) recipe.push({ insumoKey, qtyPerUnit });
+      });
+      if (recipe.length > 0) {
+        vari.customRecipe = recipe;
+      } else {
+        delete vari.customRecipe;
+      }
+
+      // Actualizar paquetes
+      const newPacks = [];
+      document.querySelectorAll(".ev-pack-row").forEach(r => {
+        const qtyLabel = r.querySelector(".ev-pack-label").value.trim() || "1 pz";
+        const qtyNum = parseInt(r.querySelector(".ev-pack-num").value) || 1;
+        const baseCost = parseFloat(r.querySelector(".ev-pack-cost").value) || 0;
+        newPacks.push({
+          qtyLabel,
+          qtyNum,
+          baseCost,
+          cost: baseCost,
+          price: 0,
+          unitPrice: 0,
+          profit: 0,
+          margin: "85%"
+        });
+      });
+
+      if (newPacks.length === 0) {
+        return uiAlert("El producto debe tener al menos un paquete de cantidad.");
+      }
+
+      vari.packs = newPacks;
+      vari.manualOverrideCost = true;
+
+      // Actualizar filas del cotizador que apuntaban al nombre anterior
+      quoterRows.forEach(row => {
+        if (row.categoryId === cat.id && row.variantName === oldVarName) {
+          row.variantName = newVarName;
+        }
+      });
+
+      applyInsumosCosts();
+      saveInsumosToStorage();
+      renderTabs();
+      renderActiveTab(document.getElementById("searchInput").value);
+      renderQuoter();
+      closeEditVariantModal();
+      uiAlert("Todos los cambios del producto y sus paquetes se han guardado y recalculado.", "¡Producto Actualizado!");
+    }
+
+    function deleteEntireVariantFromModal() {
+      const catId = document.getElementById("evCatId").value;
+      const varIdx = parseInt(document.getElementById("evVarIdx").value);
+      const cat = CATALOG_DATA.find(c => c.id === catId);
+      if (!cat || !cat.variants[varIdx]) return;
+      const vari = cat.variants[varIdx];
+
+      uiConfirm(`¿Seguro que deseas eliminar por completo la variante "${vari.name}" y todos sus paquetes?`, () => {
+        cat.variants.splice(varIdx, 1);
+        if (cat.variants.length === 0 && CATALOG_DATA.length > 1) {
+          CATALOG_DATA = CATALOG_DATA.filter(c => c.id !== catId);
+          if (activeTabId === catId) activeTabId = CATALOG_DATA[0].id;
+        }
+        saveInsumosToStorage();
+        renderTabs();
+        renderActiveTab();
+        renderQuoter();
+        closeEditVariantModal();
+      }, "Eliminar Variante Completa");
     }
 
     // =========================================================================
@@ -1525,10 +1847,14 @@
       Object.keys(CURRENT_INSUMOS).forEach(key => {
         const label = INSUMOS_NAMES[key] || key;
         const val = CURRENT_INSUMOS[key];
+        const isCustom = key.startsWith("custom_");
         const div = document.createElement("div");
         div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200";
         div.innerHTML = `
-          <label class="block text-[11px] font-bold text-slate-600 mb-1 truncate" title="${label}">${label}</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-[11px] font-bold text-slate-600 truncate" title="${label}">${label}</label>
+            ${isCustom ? `<button onclick="deleteCustomInsumo('${key}')" class="text-[10px] text-rose-500 hover:text-rose-700 font-bold" title="Eliminar insumo"><i class="fa-solid fa-trash"></i></button>` : ''}
+          </div>
           <div class="relative">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">$</span>
             <input type="number" step="0.01" data-insumo-key="${key}" value="${val}" class="w-full pl-7 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm font-bold text-slate-800" />
@@ -1536,6 +1862,14 @@
         `;
         cont.appendChild(div);
       });
+    }
+
+    function deleteCustomInsumo(key) {
+      delete CURRENT_INSUMOS[key];
+      delete INSUMOS_NAMES[key];
+      customInsumosKeys = customInsumosKeys.filter(k => k !== key);
+      saveInsumosToStorage();
+      renderInsumosInputs();
     }
 
     function addNewCustomInsumo() {
@@ -1564,15 +1898,19 @@
       cont.innerHTML = "";
       Object.keys(CURRENT_MACHINES).forEach(mKey => {
         const m = CURRENT_MACHINES[mKey];
+        const isCustom = mKey.startsWith("maq_");
         const div = document.createElement("div");
         div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2";
         div.innerHTML = `
-          <div class="font-bold text-xs text-slate-800 flex items-center gap-1.5">
-            <i class="fa-solid fa-gear text-indigo-600"></i> ${m.name}
+          <div class="flex items-center justify-between">
+            <div class="font-bold text-xs text-slate-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-gear text-indigo-600"></i> ${m.name}
+            </div>
+            ${isCustom ? `<button onclick="deleteMachine('${mKey}')" class="text-xs text-rose-500 hover:text-rose-700"><i class="fa-solid fa-trash"></i></button>` : ''}
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="block text-[10px] font-semibold text-slate-500">Costo Máquina ($)</label>
+              <label class="block text-[10px] font-semibold text-slate-500">Precio Equipo ($)</label>
               <input type="number" step="1" data-machine-price="${mKey}" value="${m.price}" class="w-full px-2 py-1 bg-white border border-slate-200 rounded text-xs font-bold" />
             </div>
             <div>
@@ -1585,6 +1923,15 @@
       });
     }
 
+    function deleteMachine(mKey) {
+      delete CURRENT_MACHINES[mKey];
+      CATALOG_DATA.forEach(cat => {
+        if (cat.machines) cat.machines = cat.machines.filter(m => m !== mKey);
+      });
+      saveInsumosToStorage();
+      renderMachinesInputs();
+    }
+
     function addNewMachine() {
       const nameEl = document.getElementById("newMachineName");
       const priceEl = document.getElementById("newMachinePrice");
@@ -1594,7 +1941,7 @@
       const price = parseFloat(priceEl.value) || 0;
       const extraPercent = parseFloat(pctEl.value) || 0;
 
-      if (!name) return uiAlert("Escribe el nombre de la máquina.");
+      if (!name) return uiAlert("Escribe el nombre de la máquina o impresora.");
 
       const key = "maq_" + Date.now();
       CURRENT_MACHINES[key] = { name, price, extraPercent };
